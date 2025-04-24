@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #canvas {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <script>
+    const canvas = document.getElementById('canvas')
+    const ctx = canvas.getContext("2d")
+    const fontSize = 26 * devicePixelRatio
+    ctx.font = '60px Arial'
+    let columnCount
+    let charIndex
+    let index = 0
+    let textArr = ['I', 'L', 'O', 'V', 'E', 'Y', 'O', 'U']
+    function init() {
+      canvas.width = window.innerWidth * devicePixelRatio
+      canvas.height = window.innerHeight * devicePixelRatio
+      columnCount = Math.floor(canvas.width / fontSize)
+      charIndex = new Array(columnCount).fill(0)
+      draw()
+      setInterval(draw, 50)
+    }
+    function draw() {
+      ctx.font = '30px Arial'
+      ctx.fillStyle = 'rgba(0,0,0,0.1)'
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      ctx.fillStyle = "pink"
+      ctx.textBaseline = 'top';
+      for (let i = 0; i < columnCount; i++) {
+        const text = textArr[index % textArr.length]
+        const x = i * fontSize
+        const y = charIndex[i] * fontSize
+        ctx.fillText(text, x, y)
+        if (y > canvas.height && Math.random() > 0.99) {
+          charIndex[i] = 0
+        }
+        else {
+          charIndex[i]++
+        }
+        index++;
+      }
+    }
+    init()
+  </script>
+</body>
+
+</html>
